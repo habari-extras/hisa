@@ -14,7 +14,7 @@ class Hisa extends Plugin
 			return;
 		}
 		
-		$url = $post->permalink;
+		$url = $this->get_share_url( $post );
 
 		$sharing = $form->publish_controls->append( 'fieldset', 'share', _t( 'Share', 'hisa' ) );
 		$sharing->append( 'text', 'share_url', 'null:null', _t( 'Share URL', 'hisa' ), 'tabcontrol_text' );
@@ -54,12 +54,14 @@ class Hisa extends Plugin
 	private function is_authorized( $post = null, $deny = false )
 	{
 		$auth = Controller::get_var( 'auth' );
-		
+				
 		// if there's no auth key, deny authorization automatically
 		if( $auth == null )
 		{
 			return false;
 		}
+		
+		ACL::clear_caches(); // sadly, caching can't be used with Hisa
 		
 		// if someone has an auth token but should be denied, mess them up
 		if( $deny == true )
@@ -108,9 +110,7 @@ class Hisa extends Plugin
 	public function filter_user_identify($user)
 	{
 		// Utils::debug( $user );
-		
-		ACL::clear_caches();
-		
+				
 		// $user = User::get_by_name( 'lipsum' );
 		
 		// if(isset($_GET['mkey'])) {
