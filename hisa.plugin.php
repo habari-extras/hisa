@@ -28,6 +28,9 @@ class Hisa extends Plugin
 		// 	$form->tokens->value = $post->has_tokens( array_keys( $tokens ) );
 		// }
 	}
+	
+	
+
 		
 	/**
 	 * Gets the sharing URL for a post 
